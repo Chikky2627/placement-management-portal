@@ -48,4 +48,4 @@ A Full Stack Placement Management Portal built using HTML, CSS, JavaScript, Spri
 
 ## Author
 
-Pathuri Chikky Reddy
+Pathuri Chiki
