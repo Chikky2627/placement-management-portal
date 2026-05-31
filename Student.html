@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PLACEMENT PORTAL</title> 
+    <link rel="stylesheet"  type="text/css" href="Student.css">
+  </head>
+  <body>
+    <div class="student_Form" id="studentForm">
+    <h1 class="head">Student form</h1>
+    <form>
+        <label class="form">Full_Name</label>
+        <input   id="studentName" class="input" type="text" placeholder="Enter your name:">
+        <br>
+        <label class="form">Email_Address</label>
+        <input  id="studentEmail" class="input" type="email" placeholder="Enter your email:"><br>
+        <label class="form">Phone_Number</label>
+        <input id="studentPhno" class="input" type="tel" placeholder="Enter your phone number:">
+        <br>
+        <label class="form">Branch</label>
+        <input id="branch" class="input" type="text" placeholder="Enter your branch:">
+        <br>
+        <label class="form">Skills</label>
+        <input id="studentSkills" class="input" type="text" placeholder="Enter your skills:">
+        <br>
+        <label class="form">studentCgpa</label>
+        <input id="studentCgpa" class="input" type="number" placeholder="Enter your CGPA:" step="0.01" min="0" max="10">
+        <br>
+        <label class="form">Graduation_Year</label>
+        <input id="graduationYr" class="input" type="number" placeholder="Enter your graduation year:" min="2025" max="2028">
+        <br>
+        <button  class="button" type="button" onclick="addStudent()">Submit</button>
+    </form>
+  </div>
+  <div id="message"></div>
+<script>
+  async function addStudent() {
+    const studentData = {
+     studentName:document.getElementById("studentName").value,
+     studentEmail:document.getElementById("studentEmail").value,
+     studentPhno:document.getElementById("studentPhno").value,
+     branch:document.getElementById("branch").value,
+     studentSkills:document.getElementById("studentSkills").value,
+     studentCgpa:document.getElementById("studentCgpa").value,
+     graduationYr:document.getElementById("graduationYr").value
+  };
+  try {
+    const response =await fetch("http://localhost:10000/Addstudents",
+      {
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify(studentData)
+     });
+     if(response.ok){
+        document.getElementById("studentForm").style.display ="none";
+        const skill =document.getElementById("studentSkills").value;
+        const response2 =await fetch(`http://localhost:10000/matchingJobs/${skill}`);
+        const jobs =await response2.json();
+        let jobsHTML = `
+        <h2>Relevant Jobs</h2>
+        <table border="1">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Role</th>
+            <th>Location</th>
+            <th>Skills</th>
+            <th>CGPA</th>
+            <th>Salary</th>
+            <th>Deadline</th>
+            <th>Openings</th>
+          </tr>
+        </thead>
+        <tbody>
+            `;
+          jobs.forEach(job => {
+            jobsHTML += `
+            <tr>
+             <td>${job.companyName}</td>
+             <td>${job.jobRole}</td>
+             <td>${job.location}</td>
+             <td>${job.requiredSkills}</td>
+             <td>${job.minCgpa}</td>
+             <td>${job.salaryPackage}</td>
+             <td>${job.deadline}</td>
+             <td>${job.noOfOpenings}</td>
+            </tr>
+             `;
+            });
+           jobsHTML += `
+           </tbody>
+           </table>
+            `;
+        document.getElementById("message").innerHTML =jobsHTML;
+        document.querySelector("form").reset();
+        }
+        else{
+         console.log("Student save failed");
+        }
+   } 
+    catch(error){
+        console.log(error);
+    }
+}
+</script>
+</body>
+</html>

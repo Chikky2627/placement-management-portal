@@ -1,0 +1,47 @@
+body{
+    background-color:#afcce936;
+  }
+form {
+    /*text-align:center;*/
+    text-align:right;
+    color:#000000;
+    font-size:20px;
+    width:10px;
+    display:flex;
+    gap:50px;
+    margin-left:400px;
+    display:block;
+    margin-bottom:4px;
+    margin-top:20px;
+    
+  }
+  .input{
+    border-radius:6px;
+    height:35px;
+    width:450px;
+    margin-left:10px;
+    border:1px solid #8bb5e6;
+    margin-bottom:4px;
+    margin-top:20px;
+    
+    
+    
+  }
+  .button{
+    border-radius:40px;
+    height:40px;
+    width:100px;
+    margin-left:150px;
+    margin-top:10px;
+      border:1px solid #5d93da;
+      background-color:#a1cbe0;
+      weight:bold;
+      font-size:18px;
+      color:#fdfdfd;
+}
+#message{
+    text-align:center;
+    font-size:18px;
+    margin-top:10px;
+    font-weight:bold;
+}

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job_Posting</title>
+
+ <link rel="stylesheet"  type="text/css" href="Job_posting.css">
+  </head>
+  <body>
+    <div class="student_Form">
+    <h1 class="head">Job Posting</h1>
+    <form>
+        <label class="form">Company_Name</label>
+        <input  class="input"  id="companyName" type="text" placeholder="Enter your name:">
+        <br>
+        <label class="form">Company_Address</label>
+        <input  class="input" type="text" id="location" placeholder="Enter your address:"><br>
+        <label class="form">Minimum_CGPA</label>
+        <input class="input" type="number" id="minCgpa"placeholder="Enter minimum CGPA:" step="0.01" min="0" max="10">
+        <br>
+        <label class="form">Required_Skills</label>
+        <input class="input" type="text" id="requiredSkills" placeholder="Enter required skills:">
+        <br>
+        <label class="form">Job_Role</label>
+        <input class="input" type="text" id="jobRole"placeholder="Enter job role:">
+        <br>
+        <label class="form">Job_descrption</label>
+       <textarea id="jobDescription" class="input" placeholder="Enter job description"></textarea>
+        <br>
+        <label class="form">Salary_Package</label>
+       <inputclass="input" id="salaryPackage" type="number" step="0.01" placeholder="Enter salary package:">
+        <br>
+        <label class="form">No_of_Openings</label>
+        <input class="input" type="number" id="noOfOpenings" placeholder="Enter number of openings:" min="1">
+        <br>
+        <label class="form">Deadline</label>
+        <input class="input" type="date" id="deadline" placeholder="Enter application deadline:">
+        <br>
+        <button type="button" class="submit" onclick="postJob(event)">Submit</button>
+        <p id="message"></p>
+    </form>
+ <script>
+    async function postJob() {
+    const jobData = {
+      companyName:document.getElementById("companyName").value,
+      jobRole:document.getElementById("jobRole").value,
+      location:document.getElementById("location").value,
+      requiredSkills:document.getElementById("requiredSkills").value,
+      minCgpa:Number(document.getElementById("minCgpa").value
+   ),
+    salaryPackage:Number(document.getElementById("salaryPackage").value
+  ),
+  jobDescription:document.getElementById("jobDescription").value,
+  deadline:document.getElementById("deadline").value,
+  noOfOpenings:Number(document.getElementById("noOfOpenings").value
+    )
+ };
+ try {
+   const response =
+    await fetch("http://localhost:10000/addJobPost",
+    {
+    method:"POST",
+      headers:{
+                "Content-Type":"application/json"},
+       body:JSON.stringify(jobData)
+    });
+    if(response.ok){
+      document.getElementById("message").innerText ="Job Posted Successfully";
+      document.getElementById("message").style.color ="green";
+      document.querySelector("form").reset();
+    }
+    else{
+        const errorText =
+        await response.text();
+        console.log(errorText);
+        document.getElementById("message").innerText ="Failed To Post Job";
+        document.getElementById("message").style.color ="red";
+   }
+ } catch(error){
+    document.getElementById("message").innerText ="Something Went Wrong";
+    document.getElementById("message").style.color = "red";
+    }
+}
+</script>
+ </body>
+</html>

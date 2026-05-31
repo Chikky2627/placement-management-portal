@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+    <title>PLACEMENT PORTAL</title>
+   <link rel="stylesheet" type="text/css" href="Company.css">
+</head>
+<body>
+<div class="student_Form">
+   <h1 class="head">Company Registration</h1>
+    <form>
+      <label class="form">Company_Name</label>
+      <input id="companyName" class="input" type="text" placeholder="Enter company name:" required>
+      <br>
+      <label class="form">Company_Address</label>
+      <input id="companyAddress" class="input" type="text" placeholder="Enter address:" required>
+      <br>
+      <label class="form">Minimum_CGPA</label>
+      <input id="minimumCgpa" class="input" type="number" step="0.01" min="0" max="10" placeholder="Enter minimum CGPA:"required>
+      <br>
+      <label class="form">Required_Skills</label>
+      <input id="requiredSkills" class="input" type="text" placeholder="Enter required skills:" required>
+      <br>
+      <label class="form">Job_Role</label>
+      <input id="jobRole" class="input" type="text" placeholder="Enter job role:" required>
+      <br>
+      <label class="form">Salary_Package</label>
+      <input id="salaryPackage" class="input" type="number" step="0.01" placeholder="Enter salary package:" required>
+      <br>
+      <label class="form">No_of_Openings</label>
+      <input id="noOfOpenings" class="input" type="number" min="1" placeholder="Enter openings:" required>
+      <br>
+      <label class="form">Deadline</label>
+      <input id="deadline" class="input" type="date"  required>
+      <br>
+      <button class="button" type="button" onclick="addCompany()">Submit</button>
+      <p id="message"></p>
+    </form>
+</div>
+<script>
+ async function addCompany() {
+    console.log("Function Started");
+ const companyData = {
+   companyName:document.getElementById("companyName").value,
+   address:document.getElementById("companyAddress").value,
+   minCgpa:Number(document.getElementById("minimumCgpa").value
+   ),
+   requiredSkills:document.getElementById("requiredSkills").value,
+   jobRole:document.getElementById("jobRole").value,
+   salaryPackage:Number(document.getElementById("salaryPackage").value
+   ),
+    noOfOpenings:Number(document.getElementById("noOfOpenings").value
+     ),
+    deadline:document.getElementById("deadline").value
+ };
+ console.log(companyData);
+ try {
+    const response =await fetch("http://localhost:10000/AddCompany",{
+        method: "POST",
+          headers: {
+            "Content-Type":"application/json"
+         },
+        body:
+            JSON.stringify(companyData)
+        });
+       console.log(response);
+    if(response.ok){
+     document.getElementById("message").innerText ="Company  details Added Successfully";
+document.getElementById("message").style.color ="green";
+document.querySelector("form").reset();
+    }
+    else{
+        document.getElementById("message").innerText ="Failed To Add Company";
+        document.getElementById("message").style.color ="red";
+        console.log(await response.text());
+    }
+ } catch(error){
+    console.log(error);
+    document.getElementById("message").innerText ="Something went wrong";
+    document.getElementById("message").style.color ="red";
+    }
+}
+</script>
+</body>
+</html>

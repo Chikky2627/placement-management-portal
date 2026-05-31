@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>signup</title>
+    <link rel="stylesheet" href="Signup.css">
+</head>
+<body>
+    <form>
+    <div >
+        <label for="name" class="form">Full_Name</label>
+            <input type="text"  id="name" class="input" placeholder="Full Name" required>
+        <label for="email" class="form">Email</label>
+            <input type="text"  id="email" class="input" placeholder="Email" required>
+        <label for="password" class="form">Password</label>
+            <input type="password" id="password" class="input" placeholder="Password" required>
+            <label for="confirm-password" class="form">confirmPassword</label>
+            <input type="password" id="confirmPassword" class="input" placeholder="Confirm Password" required>
+        </div>
+        <button class="button "  type="button" onclick="signupUser()">Sign Up</button>
+        <p id="message"></p>
+    </form>
+    <script>
+
+async function signupUser() {
+
+    const message =
+    document.getElementById("message");
+
+    message.innerText = "Started";
+
+    const email =
+    document.getElementById("email").value;
+
+    const password =
+    document.getElementById("password").value;
+
+    const confirmPassword =
+    document.getElementById("confirmPassword").value;
+
+    if(password !== confirmPassword){
+
+        message.innerText =
+        "Passwords do not match";
+
+        message.style.color =
+        "red";
+
+        return;
+    }
+
+    message.innerText =
+    "Connecting Backend...";
+
+    try{
+
+        const response =
+        await fetch(
+        "http://localhost:10000/signup",
+        {
+            method:"POST",
+
+            headers:{
+                "Content-Type":
+                "application/json"
+            },
+
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        });
+
+        message.innerText =
+        "Response Received";
+
+        if(response.ok){
+
+            message.innerText =
+            "Signup Successful";
+
+            message.style.color =
+            "green";
+
+            setTimeout(() => {
+
+                window.location.href =
+                "Home.html";
+
+            },1500);
+        }
+
+        else{
+
+            message.innerText =
+            "Signup Failed";
+
+            message.style.color =
+            "red";
+        }
+
+    }catch(error){
+
+        message.innerText =
+        "Backend Not Connected";
+
+        message.style.color =
+        "red";
+
+        console.log(error);
+    }
+    
+}
+
+</script>
+
+  
+
+        
+             
+
+        
+       
+
+</script>
+</body>
+</html>
